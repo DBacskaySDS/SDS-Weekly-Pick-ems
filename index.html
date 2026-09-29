@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+<title>SDS Pick'em Leaderboard</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card-bg: #ffffff;
+    --text: #1a1a2e;
+    --text-muted: #666666;
+    --border: #e2e2e6;
+    --row-border: #f0f0f0;
+    --accent: #4338ca;
+    --accent-bg: #eef2ff;
+    --gold: #c9971e;
+    --silver: #8a8f98;
+    --bronze: #b5651d;
+    --win-bg: #fff8e1;
+    --pill-bg: #fff3cd;
+    --pill-text: #8a6d00;
+    --correct: #16a34a;
+    --wrong: #b91c1c;
+    --error-bg: #fef2f2;
+    --error-text: #991b1b;
+    --ok-text: #166534;
+    --actual-bg: #f8f9fb;
+    --footer-text: #aaaaaa;
+    --btn-disabled-bg: #c7c7d1;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #14151d;
+      --card-bg: #1d1f2b;
+      --text: #e8e8f0;
+      --text-muted: #9a9aa8;
+      --border: #2c2e3c;
+      --row-border: #2a2c38;
+      --accent: #9797f7;
+      --accent-bg: #262a4a;
+      --gold: #e0b84a;
+      --silver: #a8adb8;
+      --bronze: #d18a4a;
+      --win-bg: #3a3320;
+      --pill-bg: #4a3f1a;
+      --pill-text: #ffd75e;
+      --correct: #4ade80;
+      --wrong: #f87171;
+      --error-bg: #3a1e1e;
+      --error-text: #ff9d9d;
+      --ok-text: #4ade80;
+      --actual-bg: #242633;
+      --footer-text: #6a6c78;
+      --btn-disabled-bg: #3d3f4d;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14151d;
+    --card-bg: #1d1f2b;
+    --text: #e8e8f0;
+    --text-muted: #9a9aa8;
+    --border: #2c2e3c;
+    --row-border: #2a2c38;
+    --accent: #9797f7;
+    --accent-bg: #262a4a;
+    --gold: #e0b84a;
+    --silver: #a8adb8;
+    --bronze: #d18a4a;
+    --win-bg: #3a3320;
+    --pill-bg: #4a3f1a;
+    --pill-text: #ffd75e;
+    --correct: #4ade80;
+    --wrong: #f87171;
+    --error-bg: #3a1e1e;
+    --error-text: #ff9d9d;
+    --ok-text: #4ade80;
+    --actual-bg: #242633;
+    --footer-text: #6a6c78;
+    --btn-disabled-bg: #3d3f4d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 24px 16px;
+    padding-block: 24px;
+  }
+  .wrap { max-width: 820px; margin: 0 auto; }
+  h1 {
+    font-size: 24px;
+    margin: 0 0 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .subtitle { color: var(--text-muted); font-size: 14px; margin-bottom: 16px; }
+  .tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 10px 4px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-right: 18px;
+    font-family: inherit;
+  }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .card {
+    background: var(--card-bg);
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .card h2 { font-size: 16px; margin: 0 0 14px 0; color: var(--text); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th, td { text-align: left; padding: 9px 8px; }
+  th { color: var(--text-muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; border-bottom: 1px solid var(--border); }
+  tbody tr { border-bottom: 1px solid var(--row-border); }
+  tbody tr:last-child { border-bottom: none; }
+  tbody tr.winner-row { background: linear-gradient(90deg, var(--win-bg), transparent); }
+  .rank-cell { font-weight: 700; width: 34px; }
+  .rank-1 { color: var(--gold); }
+  .rank-2 { color: var(--silver); }
+  .rank-3 { color: var(--bronze); }
+  .name-cell { font-weight: 600; white-space: nowrap; }
+  .medal { margin-right: 4px; }
+  .pill {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background: var(--pill-bg);
+    color: var(--pill-text);
+    margin-left: 6px;
+  }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .muted { color: var(--text-muted); }
+  .week-header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .week-header .tag {
+    font-size: 12px; background: var(--accent-bg); color: var(--accent);
+    padding: 3px 10px; border-radius: 20px; font-weight: 600;
+  }
+  .error {
+    background: var(--error-bg); color: var(--error-text); border-radius: 10px;
+    padding: 14px 16px; font-size: 13px; white-space: pre-wrap;
+  }
+  .footer-note { text-align: center; color: var(--footer-text); font-size: 12px; margin-top: 8px; }
+  .grid-scroll { overflow-x: auto; position: relative; }
+  .grid-scroll table { min-width: 720px; }
+  .grid-scroll th:first-child, .grid-scroll td:first-child {
+    position: sticky; left: 0; background: var(--card-bg); z-index: 1;
+  }
+  .grid-scroll .actual-row td:first-child { background: var(--actual-bg); }
+  .scroll-hint { display: none; font-size: 12px; color: var(--text-muted); margin: -4px 0 10px 0; }
+  @media (max-width: 640px) {
+    .scroll-hint { display: block; }
+  }
+  .lock-msg { padding: 6px 0; }
+  .pick-cell.correct { color: var(--correct); font-weight: 700; }
+  .pick-cell.wrong { color: var(--wrong); }
+  .pick-cell.actual { font-weight: 700; }
+  .actual-row td { background: var(--actual-bg); font-weight: 700; }
+  .game-block { border-bottom: 1px solid var(--row-border); padding: 14px 0; }
+  .game-block:last-child { border-bottom: none; }
+  .game-title { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+  .game-time { color: var(--text-muted); font-size: 12px; margin-bottom: 10px; }
+  .tb-badge {
+    font-size: 11px; font-weight: 700; background: var(--accent-bg); color: var(--accent);
+    padding: 2px 8px; border-radius: 20px; margin-left: 6px;
+  }
+  .choice-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .choice-label {
+    flex: 1;
+    min-width: 120px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    color: var(--text);
+  }
+  .choice-label input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .choice-label.selected { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); }
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--card-bg);
+    color: var(--text);
+  }
+  label.field-label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+  .field-block { margin-bottom: 16px; }
+  .cta-btn {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .cta-btn:disabled { background: var(--btn-disabled-bg); cursor: default; }
+  .cta-btn:focus-visible, .tab-btn:focus-visible, .choice-label:focus-within {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .submit-msg { margin-top: 14px; font-size: 13px; }
+  .submit-msg.ok { color: var(--ok-text); }
+  .submit-msg.err { color: var(--error-text); }
+</style>
+<div class="wrap">
+  <h1>🏈 NFL Pick'em — Striking Distance Studios</h1>
+  <div class="subtitle">2026 Season</div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="leaderboard">Leaderboard</button>
+    <button class="tab-btn" data-tab="picks">Make Your Picks</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-leaderboard">
+    <div id="live-standings"></div>
+    <div id="content"></div>
+    <div id="live-picks"></div>
+    <div class="footer-note" id="footer-note"></div>
+  </div>
+
+  <div class="tab-panel" id="tab-picks"></div>
+</div>
+
+<script>
+// ---------- Static leaderboard snapshot — republish this page to refresh ----------
+const SNAPSHOT_TAKEN_AT = "2026-09-28T00:00:00Z";
+const TRACKER_TEXT = `
+| Season Standings |
+| Season Rank | Name | Total Correct | Total Games Graded | Weeks Won | Avg Tiebreaker Diff |
+| 1 | Tommy Grissom | 22 | 32 | 1 | 6.0 |
+| 2 | Minkz | 22 | 32 | 0 | 6.5 |
+| 3 | Cristina Maldonado | 21 | 32 | 0 | 14.0 |
+| 4 | Anthony Engel | 20 | 32 | 0 | 7.5 |
+| 5 | Gavin Lee | 20 | 32 | 0 | 8.0 |
+| 6 | Vernon Lee Jr | 20 | 32 | 0 | 9.5 |
+| 7 | Nixon | 19 | 32 | 1 | 3.5 |
+| 8 | Thomas Catalano | 19 | 32 | 0 | 12.5 |
+| 9 | Andrea Lencioni | 18 | 32 | 0 | 4.5 |
+| 10 | Devon Bacskay | 18 | 32 | 0 | 5.0 |
+| 11 | Ahmed Khalifa | 18 | 32 | 0 | 7.5 |
+| 12 | Steve Papoutsis | 17 | 32 | 0 | 13.5 |
+| 13 | Rhonda | 16 | 32 | 0 | 3.0 |
+| 14 | Daniel Ortuno | 15 | 32 | 0 | 9.5 |
+| 15 | Aasim | 10 | 16 | 0 | 10.0 |
+`;
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function parseSections(text) {
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.startsWith('|'));
+  const rows = lines.map(line => {
+    let cells = line.split('|').map(c => c.trim());
+    if (cells[0] === '') cells = cells.slice(1);
+    if (cells[cells.length - 1] === '') cells = cells.slice(0, -1);
+    return cells;
+  });
+
+  const isBlank = cells => cells.every(c => c === '');
+  const isSeparator = cells => !isBlank(cells) && cells.every(c => /^:?-{1,3}:?$/.test(c) || c === '');
+
+  const sections = {};
+  let currentName = null;
+  let headers = null;
+  let dataRows = [];
+
+  const flush = () => {
+    if (currentName && headers) {
+      sections[currentName] = dataRows.map(r => {
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = r[i] !== undefined ? r[i] : '');
+        return obj;
+      });
+    }
+  };
+
+  for (const cells of rows) {
+    if (isBlank(cells)) { flush(); currentName = null; headers = null; dataRows = []; continue; }
+    if (isSeparator(cells)) continue;
+    const nonEmpty = cells.filter(c => c !== '');
+    if (!headers && nonEmpty.length === 1 && cells[0] !== '') {
+      flush();
+      currentName = cells[0];
+      headers = null;
+      dataRows = [];
+      continue;
+    }
+    if (currentName && !headers) { headers = cells; continue; }
+    if (currentName && headers) { dataRows.push(cells); }
+  }
+  flush();
+  return sections;
+}
+
+function medal(rank) {
+  if (rank === '1') return '<span class="medal">🥇</span>';
+  if (rank === '2') return '<span class="medal">🥈</span>';
+  if (rank === '3') return '<span class="medal">🥉</span>';
+  return '';
+}
+
+function renderStandings(rows) {
+  if (!rows || !rows.length) return '<p class="muted">No season standings yet.</p>';
+  const sorted = [...rows].sort((a, b) => Number(a['Season Rank']) - Number(b['Season Rank']));
+  const body = sorted.map(r => {
+    const rankClass = r['Season Rank'] === '1' ? 'rank-1' : r['Season Rank'] === '2' ? 'rank-2' : r['Season Rank'] === '3' ? 'rank-3' : '';
+    const weeksWon = Number(r['Weeks Won'] || 0);
+    return `<tr>
+      <td class="rank-cell ${rankClass}">${medal(r['Season Rank'])}${esc(r['Season Rank'])}</td>
+      <td class="name-cell">${esc(r['Name'])}${weeksWon > 0 ? `<span class="pill">${weeksWon} week${weeksWon > 1 ? 's' : ''} won</span>` : ''}</td>
+      <td class="num">${esc(r['Total Correct'])}/${esc(r['Total Games Graded'])}</td>
+      <td class="num">${esc(r['Avg Tiebreaker Diff'])}</td>
+    </tr>`;
+  }).join('');
+  return `<table>
+    <thead><tr><th>Rank</th><th>Name</th><th class="num">Correct</th><th class="num">Avg TB Diff</th></tr></thead>
+    <tbody>${body}</tbody>
+  </table>`;
+}
+
+function renderWeekly(rows) {
+  if (!rows || !rows.length) return { html: '<p class="muted">No weeks graded yet.</p>', week: null };
+  const latestWeek = Math.max(...rows.map(r => Number(r['Week'])));
+  const weekRows = rows.filter(r => Number(r['Week']) === latestWeek)
+    .sort((a, b) => Number(a['Rank']) - Number(b['Rank']));
+  const body = weekRows.map(r => {
+    const won = (r['Won'] || '').toUpperCase() === 'Y';
+    return `<tr class="${won ? 'winner-row' : ''}">
+      <td class="rank-cell">${medal(r['Rank'])}${esc(r['Rank'])}</td>
+      <td class="name-cell">${esc(r['Name'])}${won ? '<span class="pill">👑 Winner</span>' : ''}</td>
+      <td class="num">${esc(r['Correct'])}/${esc(r['Total Games'])}</td>
+      <td class="num">${esc(r['Tiebreaker Guess'])}</td>
+      <td class="num">${esc(r['Diff'])}</td>
+    </tr>`;
+  }).join('');
+  return {
+    week: latestWeek,
+    html: `<table>
+      <thead><tr><th>Rank</th><th>Name</th><th class="num">Correct</th><th class="num">TB Guess</th><th class="num">Diff</th></tr></thead>
+      <tbody>${body}</tbody>
+    </table>`
+  };
+}
+
+function findLatestPicksSection(sections) {
+  let best = null, bestWeek = -1;
+  for (const key of Object.keys(sections)) {
+    const m = key.match(/^Week (\d+) Picks$/i);
+    if (m) {
+      const w = Number(m[1]);
+      if (w > bestWeek) { bestWeek = w; best = key; }
+    }
+  }
+  return best ? { week: bestWeek, rows: sections[best] } : null;
+}
+
+function renderPicksGrid(picksInfo) {
+  if (!picksInfo) return '';
+  const { week, rows } = picksInfo;
+  if (!rows || !rows.length) return '';
+  const cols = Object.keys(rows[0]).filter(k => k !== 'Name');
+  const actualRow = rows.find(r => r['Name'].toUpperCase() === 'ACTUAL RESULT');
+  const people = rows.filter(r => r['Name'].toUpperCase() !== 'ACTUAL RESULT');
+
+  const headerCells = cols.map(c => `<th>${esc(c)}</th>`).join('');
+  const actualCells = actualRow ? cols.map(c => `<td class="pick-cell actual">${esc(actualRow[c])}</td>`).join('') : '';
+  const bodyRows = people.map(r => {
+    const cells = cols.map(c => {
+      const val = r[c] || '';
+      let cls = 'pick-cell';
+      if (actualRow && c !== 'TB Guess') {
+        cls += val === actualRow[c] ? ' correct' : ' wrong';
+      }
+      return `<td class="${cls}">${esc(val)}</td>`;
+    }).join('');
+    return `<tr><td class="name-cell">${esc(r['Name'])}</td>${cells}</tr>`;
+  }).join('');
+
+  return `
+    <div class="card">
+      <div class="week-header">
+        <h2 style="margin:0;">Everyone's Picks — Week ${week}</h2>
+        <span class="tag">Green = correct</span>
+      </div>
+      <div class="scroll-hint">← swipe to see all games →</div>
+      <div class="grid-scroll">
+        <table>
+          <thead><tr><th>Name</th>${headerCells}</tr></thead>
+          <tbody>
+            ${actualRow ? `<tr class="actual-row"><td>Actual Result</td>${actualCells}</tr>` : ''}
+            ${bodyRows}
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function renderLeaderboard() {
+  const el = document.getElementById('content');
+  try {
+    const SECTIONS = parseSections(TRACKER_TEXT);
+    const weekly = renderWeekly(SECTIONS['Weekly Results']);
+    const standings = renderStandings(SECTIONS['Season Standings']);
+    const picksInfo = findLatestPicksSection(SECTIONS);
+
+    el.innerHTML = `
+      <div class="card">
+        <div class="week-header"><h2 style="margin:0;">Season Standings</h2></div>
+        ${standings}
+      </div>
+      ${weekly.week !== null ? `
+      <div class="card">
+        <div class="week-header">
+          <h2 style="margin:0;">Week ${weekly.week} Results</h2>
+          <span class="tag">Most recent week</span>
+        </div>
+        ${weekly.html}
+      </div>` : ''}
+      ${renderPicksGrid(picksInfo)}
+    `;
+    document.getElementById('footer-note').textContent =
+      'Season standings snapshot from ' + new Date(SNAPSHOT_TAKEN_AT).toLocaleString() + ' (before Week 3 results) — ask Devon to refresh for updated standings. (Live picks and live standings above update automatically.)';
+  } catch (err) {
+    el.innerHTML = `<div class="error">Couldn't render the leaderboard snapshot.\n\n${esc(err.message || err)}</div>`;
+  }
+}
+
+// ---------- Make Your Picks — posts straight to the linked Google Form ----------
+// This form's entry IDs stay fixed week to week; only the matchups/options below
+// need to change. NOTE: unlike the F&F pool, SDS creates a brand-new Form + Sheet
+// each week — so FORM_ACTION_URL, NAME_ENTRY, TIEBREAKER_ENTRY, each game's entry
+// ID, and PICKS_CSV_URL below all need to be swapped out weekly, not just edited.
+const CURRENT_WEEK = 3;
+// Picks close once the first game of the week kicks off — update this every week to
+// match Game 1's kickoff time (in UTC). Thu 9/24/2026 8:15 PM ET (EDT, UTC-4) = below.
+const PICKS_LOCK_AT = "2026-09-25T00:15:00Z";
+function isPicksLocked() {
+  return Date.now() >= new Date(PICKS_LOCK_AT).getTime();
+}
+const FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLSeG2mrXsOS2Xv_xZZ2YxpTaL42oH5KOOb8zuxApSJQtU_RvAQ/formResponse";
+const NAME_ENTRY = "entry.1042254620";
+const TIEBREAKER_ENTRY = "entry.863364656";
+const GAMES = [
+  { matchup: "Atlanta Falcons @ Green Bay Packers", kickoff: "Thu 9/24 8:15 PM ET (Amazon Prime)", away: "Atlanta Falcons", home: "Green Bay Packers", entry: "entry.1430673861" },
+  { matchup: "Carolina Panthers @ Cleveland Browns", kickoff: "Sun 9/27 1:00 PM ET (FOX)", away: "Carolina Panthers", home: "Cleveland Browns", entry: "entry.2108949720" },
+  { matchup: "Cincinnati Bengals @ Pittsburgh Steelers", kickoff: "Sun 9/27 1:00 PM ET", away: "Cincinnati Bengals", home: "Pittsburgh Steelers", entry: "entry.441562585" },
+  { matchup: "Houston Texans @ Indianapolis Colts", kickoff: "Sun 9/27 1:00 PM ET", away: "Houston Texans", home: "Indianapolis Colts", entry: "entry.217602783" },
+  { matchup: "Kansas City Chiefs @ Miami Dolphins", kickoff: "Sun 9/27 1:00 PM ET", away: "Kansas City Chiefs", home: "Miami Dolphins", entry: "entry.1796722167" },
+  { matchup: "Los Angeles Chargers @ Buffalo Bills", kickoff: "Sun 9/27 1:00 PM ET (FOX)", away: "Los Angeles Chargers", home: "Buffalo Bills", entry: "entry.1169487905" },
+  { matchup: "New England Patriots @ Jacksonville Jaguars", kickoff: "Sun 9/27 1:00 PM ET", away: "New England Patriots", home: "Jacksonville Jaguars", entry: "entry.145057882" },
+  { matchup: "New York Jets @ Detroit Lions", kickoff: "Sun 9/27 1:00 PM ET (FOX)", away: "New York Jets", home: "Detroit Lions", entry: "entry.1832158450" },
+  { matchup: "Seattle Seahawks @ Washington Commanders", kickoff: "Sun 9/27 1:00 PM ET (FOX)", away: "Seattle Seahawks", home: "Washington Commanders", entry: "entry.326102835" },
+  { matchup: "Tennessee Titans @ New York Giants", kickoff: "Sun 9/27 1:00 PM ET", away: "Tennessee Titans", home: "New York Giants", entry: "entry.53406833" },
+  { matchup: "Arizona Cardinals @ San Francisco 49ers", kickoff: "Sun 9/27 4:05 PM ET (FOX)", away: "Arizona Cardinals", home: "San Francisco 49ers", entry: "entry.2030992036" },
+  { matchup: "Minnesota Vikings @ Tampa Bay Buccaneers", kickoff: "Sun 9/27 4:05 PM ET (FOX)", away: "Minnesota Vikings", home: "Tampa Bay Buccaneers", entry: "entry.1153349899" },
+  { matchup: "Baltimore Ravens @ Dallas Cowboys", kickoff: "Sun 9/27 4:25 PM ET", away: "Baltimore Ravens", home: "Dallas Cowboys", entry: "entry.819301550" },
+  { matchup: "Las Vegas Raiders @ New Orleans Saints", kickoff: "Sun 9/27 4:25 PM ET", away: "Las Vegas Raiders", home: "New Orleans Saints", entry: "entry.143664362" },
+  { matchup: "Los Angeles Rams @ Denver Broncos", kickoff: "Sun 9/27 8:20 PM ET (NBC)", away: "Los Angeles Rams", home: "Denver Broncos", entry: "entry.2136714502" },
+  { matchup: "Philadelphia Eagles @ Chicago Bears", kickoff: "Mon 9/28 8:15 PM ET (ABC)", away: "Philadelphia Eagles", home: "Chicago Bears", entry: "entry.781702657", tiebreaker: true }
+];
+
+// ---------- Live "Week N Picks" — reads straight from the Form's response sheet ----------
+// Published-to-web CSV of the Form's linked response sheet. Update this every week once
+// the new Form/Sheet is created (Form editor -> Responses -> View in Sheets -> File ->
+// Share -> Publish to web -> select the "Form Responses" sheet -> format CSV -> Publish).
+// PLACEHOLDER: replace once the Week 3 sheet is published to web.
+const PICKS_CSV_URL = "https://REPLACE-WITH-PUBLISHED-CSV.invalid/pub?output=csv";
+
+function parseCSV(text) {
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i + 1] === '"') { field += '"'; i++; }
+        else { inQuotes = false; }
+      } else field += c;
+    } else {
+      if (c === '"') inQuotes = true;
+      else if (c === ',') { row.push(field); field = ''; }
+      else if (c === '\r') { /* skip */ }
+      else if (c === '\n') { row.push(field); rows.push(row); row = []; field = ''; }
+      else field += c;
+    }
+  }
+  if (field.length || row.length) { row.push(field); rows.push(row); }
+  return rows.filter(r => !(r.length === 1 && r[0] === ''));
+}
+
+function renderLivePicksShell() {
+  const el = document.getElementById('live-picks');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="card">
+      <div class="week-header">
+        <h2 style="margin:0;">Week ${CURRENT_WEEK} Picks — Live</h2>
+        <span class="tag" id="live-picks-tag">Loading…</span>
+      </div>
+      <div id="live-picks-content"><p class="muted">Loading…</p></div>
+    </div>`;
+}
+
+function renderLivePicksTable(rows) {
+  if (!rows || rows.length < 2) {
+    return '<p class="muted">No picks submitted yet for Week ' + CURRENT_WEEK + '.</p>';
+  }
+  const dataRows = rows.slice(1);
+  // Keep only the most recent submission per name (rows are in submission order,
+  // so the last row for a given name wins).
+  const byName = new Map();
+  dataRows.forEach(r => {
+    const name = (r[1] || '').trim();
+    if (name) byName.set(name, r);
+  });
+  const finalRows = Array.from(byName.values());
+  if (!finalRows.length) {
+    return '<p class="muted">No picks submitted yet for Week ' + CURRENT_WEEK + '.</p>';
+  }
+
+  const headerCells = GAMES.map(g => `<th>${esc(g.matchup)}</th>`).join('');
+  const bodyRows = finalRows.map(r => {
+    const cells = GAMES.map((g, i) => `<td class="pick-cell">${esc(r[2 + i] || '')}</td>`).join('');
+    const tb = r[2 + GAMES.length] || '';
+    return `<tr><td class="name-cell">${esc(r[1])}</td>${cells}<td class="num">${esc(tb)}</td></tr>`;
+  }).join('');
+
+  return `
+    <div class="scroll-hint">← swipe to see all games →</div>
+    <div class="grid-scroll">
+      <table>
+        <thead><tr><th>Name</th>${headerCells}<th>TB Guess</th></tr></thead>
+        <tbody>${bodyRows}</tbody>
+      </table>
+    </div>`;
+}
+
+async function loadLivePicks() {
+  renderLivePicksShell();
+  const contentEl = document.getElementById('live-picks-content');
+  const tagEl = document.getElementById('live-picks-tag');
+  try {
+    const res = await fetch(PICKS_CSV_URL + '&nocache=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const rows = parseCSV(text);
+    contentEl.innerHTML = renderLivePicksTable(rows);
+    // Count unique named submitters only — blank filler rows in the sheet shouldn't inflate this.
+    const names = new Set((rows.slice(1) || []).map(r => (r[1] || '').trim()).filter(Boolean));
+    const count = names.size;
+    tagEl.textContent = count === 0 ? 'No picks yet' : (count + (count === 1 ? ' pick set in' : ' picks in'));
+  } catch (err) {
+    // Claude's own artifact sandbox blocks this kind of outbound fetch, so this view
+    // only works on the public GitHub Pages copy. Point there instead of erroring.
+    tagEl.textContent = 'Unavailable here';
+    contentEl.innerHTML = `<p class="muted">Live picks aren't available in this preview yet.</p>`;
+  }
+}
+
+// ---------- Live standings — grades finished games straight from ESPN's public scoreboard ----------
+// No API key needed; this is the same feed ESPN's own site uses. Only counts games that
+// have actually finished (status "post") — in-progress games don't flip anyone's count.
+const SEASON_YEAR = 2026;
+function espnScoreboardUrl() {
+  return `https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard?week=${CURRENT_WEEK}&seasontype=2&dates=${SEASON_YEAR}`;
+}
+
+function renderLiveStandingsShell() {
+  const el = document.getElementById('live-standings');
+  if (!el) return;
+  el.innerHTML = `
+    <div class="card">
+      <div class="week-header">
+        <h2 style="margin:0;">Week ${CURRENT_WEEK} — Live Standings</h2>
+        <span class="tag" id="live-standings-tag">Loading…</span>
+      </div>
+      <div id="live-standings-content"><p class="muted">Loading…</p></div>
+    </div>`;
+}
+
+async function loadLiveGrades() {
+  renderLiveStandingsShell();
+  const contentEl = document.getElementById('live-standings-content');
+  const tagEl = document.getElementById('live-standings-tag');
+  try {
+    const [scoreRes, picksRes] = await Promise.all([
+      fetch(espnScoreboardUrl() + '&_=' + Date.now(), { cache: 'no-store' }),
+      fetch(PICKS_CSV_URL + '&nocache=' + Date.now(), { cache: 'no-store' })
+    ]);
+    if (!scoreRes.ok) throw new Error('ESPN HTTP ' + scoreRes.status);
+    if (!picksRes.ok) throw new Error('Picks HTTP ' + picksRes.status);
+    const scoreData = await scoreRes.json();
+    const picksText = await picksRes.text();
+
+    const events = scoreData.events || [];
+    const results = GAMES.map(g => {
+      const ev = events.find(e => {
+        const comps = (e.competitions && e.competitions[0] && e.competitions[0].competitors) || [];
+        const names = comps.map(c => c.team && c.team.displayName);
+        return names.includes(g.away) && names.includes(g.home);
+      });
+      if (!ev) return { ...g, decided: false, winner: null, actualTotal: null };
+      const comp = ev.competitions[0];
+      const state = comp.status && comp.status.type && comp.status.type.state; // 'pre' | 'in' | 'post'
+      const comps = comp.competitors || [];
+      const scores = {};
+      comps.forEach(c => { scores[c.team.displayName] = Number(c.score); });
+      const decided = state === 'post';
+      let winner = null;
+      if (decided) {
+        winner = scores[g.home] > scores[g.away] ? g.home : (scores[g.away] > scores[g.home] ? g.away : 'TIE');
+      }
+      const actualTotal = (scores[g.home] != null && scores[g.away] != null) ? (scores[g.home] + scores[g.away]) : null;
+      return { ...g, decided, winner, actualTotal, state };
+    });
+
+    const decidedCount = results.filter(r => r.decided).length;
+    const tiebreakerResult = results.find(r => r.tiebreaker);
+
+    const rows = parseCSV(picksText);
+    const dataRows = rows.slice(1);
+    const byName = new Map();
+    dataRows.forEach(r => { const name = (r[1] || '').trim(); if (name) byName.set(name, r); });
+
+    const standings = Array.from(byName.values()).map(r => {
+      let correct = 0;
+      GAMES.forEach((g, i) => {
+        const res = results[i];
+        if (res.decided && res.winner !== 'TIE' && r[2 + i] === res.winner) correct++;
+      });
+      const tbGuess = Number(r[2 + GAMES.length]);
+      const diff = (tiebreakerResult && tiebreakerResult.decided && tiebreakerResult.actualTotal != null && !isNaN(tbGuess))
+        ? Math.abs(tbGuess - tiebreakerResult.actualTotal) : null;
+      return { name: (r[1] || '').trim(), correct, diff };
+    });
+
+    standings.sort((a, b) => {
+      if (b.correct !== a.correct) return b.correct - a.correct;
+      if (a.diff == null && b.diff == null) return 0;
+      if (a.diff == null) return 1;
+      if (b.diff == null) return -1;
+      return a.diff - b.diff;
+    });
+
+    if (!standings.length) {
+      contentEl.innerHTML = '<p class="muted">No picks submitted yet for Week ' + CURRENT_WEEK + '.</p>';
+    } else {
+      const body = standings.map((s, idx) => `
+        <tr>
+          <td class="rank-cell">${idx + 1}</td>
+          <td class="name-cell">${esc(s.name)}</td>
+          <td class="num">${s.correct}/${decidedCount}</td>
+          <td class="num">${s.diff == null ? '—' : esc(s.diff)}</td>
+        </tr>`).join('');
+      contentEl.innerHTML = `<table>
+        <thead><tr><th>Rank</th><th>Name</th><th class="num">Correct</th><th class="num">TB Diff</th></tr></thead>
+        <tbody>${body}</tbody>
+      </table>`;
+    }
+    tagEl.textContent = decidedCount + '/' + GAMES.length + ' games final';
+  } catch (err) {
+    tagEl.textContent = 'Unavailable';
+    contentEl.innerHTML = `<p class="muted">Couldn't load live standings right now. Try reloading the page.</p>`;
+  }
+}
+
+function renderPicksTab() {
+  const el = document.getElementById('tab-picks');
+
+  if (isPicksLocked()) {
+    el.innerHTML = `
+      <div class="card">
+        <div class="week-header"><h2 style="margin:0;">Week ${CURRENT_WEEK} Picks</h2></div>
+        <p class="muted lock-msg">Picks for Week ${CURRENT_WEEK} are locked — the first game has already kicked off. Check back next week!</p>
+      </div>`;
+    return;
+  }
+
+  const gameBlocks = GAMES.map((g, idx) => `
+    <div class="game-block">
+      <div class="game-title">${esc(g.matchup)}${g.tiebreaker ? '<span class="tb-badge">Tiebreaker Game</span>' : ''}</div>
+      <div class="game-time">${esc(g.kickoff)}</div>
+      <div class="choice-row" data-game="${idx}">
+        <label class="choice-label"><input type="radio" name="game${idx}" value="${esc(g.away)}">${esc(g.away)}</label>
+        <label class="choice-label"><input type="radio" name="game${idx}" value="${esc(g.home)}">${esc(g.home)}</label>
+      </div>
+      ${g.tiebreaker ? `<div class="field-block" style="margin-top:10px;">
+        <label class="field-label">Predict the combined total score (both teams) of this game</label>
+        <input type="number" id="tbGuess" placeholder="e.g. 45">
+      </div>` : ''}
+    </div>`).join('');
+
+  el.innerHTML = `
+    <div class="card">
+      <div class="week-header"><h2 style="margin:0;">Week ${CURRENT_WEEK} Picks</h2></div>
+      <div class="field-block">
+        <label class="field-label">Your Name</label>
+        <input type="text" id="yourName" placeholder="Enter your name">
+      </div>
+      ${gameBlocks}
+      <button class="cta-btn" id="submitBtn">Submit My Picks</button>
+      <div class="submit-msg" id="submitMsg"></div>
+    </div>
+  `;
+
+  el.querySelectorAll('.choice-label').forEach(label => {
+    label.addEventListener('click', () => {
+      const row = label.closest('.choice-row');
+      row.querySelectorAll('.choice-label').forEach(l => l.classList.remove('selected'));
+      label.classList.add('selected');
+      label.querySelector('input').checked = true;
+    });
+  });
+
+  document.getElementById('submitBtn').addEventListener('click', submitPicks);
+}
+
+function submitPicks() {
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('submitMsg');
+
+  if (isPicksLocked()) {
+    msg.className = 'submit-msg err';
+    msg.textContent = `Picks for Week ${CURRENT_WEEK} just locked — the first game has kicked off.`;
+    btn.disabled = true;
+    btn.textContent = 'Locked';
+    return;
+  }
+
+  const name = document.getElementById('yourName').value.trim();
+
+  if (!name) { msg.className = 'submit-msg err'; msg.textContent = 'Please enter your name.'; return; }
+
+  const picks = [];
+  for (let i = 0; i < GAMES.length; i++) {
+    const checked = document.querySelector(`input[name="game${i}"]:checked`);
+    if (!checked) {
+      msg.className = 'submit-msg err';
+      msg.textContent = `Please make a pick for: ${GAMES[i].matchup}`;
+      return;
+    }
+    picks.push(checked.value);
+  }
+  const tbGuessEl = document.getElementById('tbGuess');
+  const tbGuess = tbGuessEl ? tbGuessEl.value.trim() : '';
+  if (!tbGuess || isNaN(Number(tbGuess))) {
+    msg.className = 'submit-msg err';
+    msg.textContent = 'Please enter a numeric tiebreaker guess.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  try {
+    const iframeName = 'pickem_submit_' + Date.now();
+    const iframe = document.createElement('iframe');
+    iframe.name = iframeName;
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+
+    const form = document.createElement('form');
+    form.action = FORM_ACTION_URL;
+    form.method = 'POST';
+    form.target = iframeName;
+    form.style.display = 'none';
+
+    const addField = (fieldName, value) => {
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = fieldName;
+      input.value = value;
+      form.appendChild(input);
+    };
+
+    addField(NAME_ENTRY, name);
+    GAMES.forEach((g, i) => addField(g.entry, picks[i]));
+    addField(TIEBREAKER_ENTRY, tbGuess);
+
+    document.body.appendChild(form);
+    form.submit();
+
+    setTimeout(() => {
+      msg.className = 'submit-msg ok';
+      msg.textContent = `Thanks ${name}! Your picks for Week ${CURRENT_WEEK} are in.`;
+      btn.textContent = 'Submitted ✓';
+      document.body.removeChild(form);
+      document.body.removeChild(iframe);
+    }, 900);
+  } catch (err) {
+    msg.className = 'submit-msg err';
+    msg.textContent = `Something went wrong submitting: ${err.message || err}`;
+    btn.disabled = false;
+    btn.textContent = 'Submit My Picks';
+  }
+}
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+renderLeaderboard();
+renderPicksTab();
+loadLivePicks();
+loadLiveGrades();
+</script>
+</body>
+</html>
