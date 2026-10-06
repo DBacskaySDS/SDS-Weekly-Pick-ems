@@ -264,41 +264,41 @@
 
 <script>
 // ---------- Static leaderboard snapshot — republish this page to refresh ----------
-const SNAPSHOT_TAKEN_AT = "2026-09-29T04:00:00Z";
+const SNAPSHOT_TAKEN_AT = "2026-10-06T19:00:00Z";
 const TRACKER_TEXT = `
 | Season Standings |
 | Season Rank | Name | Total Correct | Total Games Graded | Weeks Won | Avg Tiebreaker Diff |
-| 1 | Minkz | 32 | 48 | 0 | — |
-| 2 | Nixon | 31 | 48 | 2 | 4.25 |
-| 3 | Cristina Maldonado | 30 | 48 | 0 | — |
-| 4 | Tommy Grissom | 29 | 48 | 1 | 6.0 |
-| 5 | Ahmed Khalifa | 27 | 48 | 0 | — |
-| 6 | Thomas Catalano | 27 | 48 | 0 | — |
-| 7 | Vernon Lee Jr | 27 | 48 | 0 | — |
-| 8 | Devon Bacskay | 26 | 48 | 0 | — |
-| 9 | Gavin Lee | 26 | 48 | 0 | — |
-| 10 | Steve Papoutsis | 25 | 48 | 0 | — |
-| 11 | Andrea Lencioni | 24 | 48 | 0 | — |
-| 12 | Rhonda | 23 | 48 | 0 | — |
-| 13 | Anthony Engel | 20 | 32 | 0 | — |
-| 14 | Aasim | 19 | 32 | 0 | — |
-| 15 | Daniel Ortuno | 15 | 32 | 0 | — |
+| 1 | Nixon | 35 | 48 | 2 | 13.33 |
+| 2 | Minkz | 33 | 48 | 1 | 13 |
+| 3 | Ahmed Khalifa | 29 | 48 | 0 | 11.33 |
+| 4 | Cristina Maldonado | 29 | 48 | 0 | 22 |
+| 5 | Devon Bacskay | 28 | 48 | 0 | 11 |
+| 6 | Steve Papoutsis | 27 | 48 | 0 | 11.67 |
+| 7 | Rhonda | 27 | 48 | 0 | 12.33 |
+| 8 | Thomas Catalano | 26 | 48 | 0 | 10.67 |
+| 9 | Vernon Lee Jr | 26 | 48 | 0 | 11 |
+| 10 | Andrea Lencioni | 25 | 48 | 1 | 10.33 |
+| 11 | Gavin Lee | 25 | 48 | 0 | 12.33 |
+| 12 | Aasim | 17 | 32 | 0 | 17.5 |
+| 13 | Tommy Grissom | 16 | 32 | 0 | 7.5 |
+| 14 | Anthony Engel | 11 | 16 | 0 | 2 |
+| 15 | Daniel Ortuno | 5 | 16 | 0 | 3 |
 | |
 | Weekly Results |
 | Week | Name | Correct | Total Games | Tiebreaker Guess | Actual Total | Diff | Rank | Won |
-| 3 | Nixon | 12 | 16 | 39 | 34 | 5 | 1 | Y |
-| 3 | Minkz | 10 | 16 | 42 | 34 | 8 | 2 | N |
-| 3 | Aasim | 9 | 16 | 34 | 34 | 0 | 3 | N |
-| 3 | Ahmed Khalifa | 9 | 16 | 30 | 34 | 4 | 4 | N |
-| 3 | Cristina Maldonado | 9 | 16 | 26 | 34 | 8 | 5 | N |
-| 3 | Devon Bacskay | 8 | 16 | 37 | 34 | 3 | 6 | N |
-| 3 | Thomas Catalano | 8 | 16 | 40 | 34 | 6 | 7 | N |
-| 3 | Steve Papoutsis | 8 | 16 | 27 | 34 | 7 | 8 | N |
-| 3 | Rhonda | 7 | 16 | 34 | 34 | 0 | 9 | N |
-| 3 | Tommy Grissom | 7 | 16 | 38 | 34 | 4 | 10 | N |
-| 3 | Vernon Lee Jr | 7 | 16 | 43 | 34 | 9 | 11 | N |
-| 3 | Andrea Lencioni | 6 | 16 | 31 | 34 | 3 | 12 | N |
-| 3 | Gavin Lee | 6 | 16 | 41 | 34 | 7 | 13 | N |
+| 4 | Minkz | 12 | 16 | 42 | 69 | 27 | 1 | Y |
+| 4 | Andrea Lencioni | 12 | 16 | 42 | 69 | 27 | 1 | Y |
+| 4 | Ahmed Khalifa | 12 | 16 | 40 | 69 | 29 | 3 | N |
+| 4 | Devon Bacskay | 11 | 16 | 43 | 69 | 26 | 4 | N |
+| 4 | Rhonda | 11 | 16 | 34 | 69 | 35 | 5 | N |
+| 4 | Steve Papoutsis | 10 | 16 | 51 | 69 | 18 | 6 | N |
+| 4 | Nixon | 10 | 16 | 37 | 69 | 32 | 7 | N |
+| 4 | Cristina Maldonado | 10 | 16 | 31 | 69 | 38 | 8 | N |
+| 4 | Thomas Catalano | 9 | 16 | 52 | 69 | 17 | 9 | N |
+| 4 | Vernon Lee Jr | 9 | 16 | 49 | 69 | 20 | 10 | N |
+| 4 | Gavin Lee | 9 | 16 | 45 | 69 | 24 | 11 | N |
+| 4 | Aasim | 8 | 16 | 34 | 69 | 35 | 12 | N |
+
 `;
 
 function esc(s) {
@@ -477,7 +477,7 @@ function renderLeaderboard() {
       ${renderPicksGrid(picksInfo)}
     `;
     document.getElementById('footer-note').textContent =
-      'Season standings snapshot from ' + new Date(SNAPSHOT_TAKEN_AT).toLocaleString() + ' (through Week 3) — ask Devon to refresh for updated standings. (Live picks and live standings above update automatically.)';
+      'Season standings snapshot from ' + new Date(SNAPSHOT_TAKEN_AT).toLocaleString() + ' (through Week 4) — ask Devon to refresh for updated standings. (Live picks and live standings above update automatically.)';
   } catch (err) {
     el.innerHTML = `<div class="error">Couldn't render the leaderboard snapshot.\n\n${esc(err.message || err)}</div>`;
   }
@@ -488,40 +488,40 @@ function renderLeaderboard() {
 // need to change. NOTE: unlike the F&F pool, SDS creates a brand-new Form + Sheet
 // each week — so FORM_ACTION_URL, NAME_ENTRY, TIEBREAKER_ENTRY, each game's entry
 // ID, and PICKS_CSV_URL below all need to be swapped out weekly, not just edited.
-const CURRENT_WEEK = 4;
+const CURRENT_WEEK = 5;
 // Picks close once the first game of the week kicks off — update this every week to
-// match Game 1's kickoff time (in UTC). Thu 10/1/2026 8:15 PM ET (EDT, UTC-4) = below.
-const PICKS_LOCK_AT = "2026-10-02T00:15:00Z";
+// match Game 1's kickoff time (in UTC). Thu 10/8/2026 8:15 PM ET (EDT, UTC-4) = below.
+const PICKS_LOCK_AT = "2026-10-09T00:15:00Z";
 function isPicksLocked() {
   return Date.now() >= new Date(PICKS_LOCK_AT).getTime();
 }
-const FORM_ACTION_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSe-9S1DJ4nn3R7JEBbBqFStEKSAE0HxHuKTTqfPjhB8Dlhxlg/formResponse";
-const NAME_ENTRY = "entry.1042254620";
-const TIEBREAKER_ENTRY = "entry.863364656";
+const FORM_ACTION_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScsjbrBKOOAau6FbLnrgeJwHSjzkPkv_dnSeaScLvGrkN5-Rw/formResponse";
+const NAME_ENTRY = "entry.787351811";
+const TIEBREAKER_ENTRY = "entry.326713942";
 const GAMES = [
-  { matchup: "Pittsburgh Steelers @ Cleveland Browns", kickoff: "Thu 10/1 8:15 PM ET (Amazon Prime)", away: "Pittsburgh Steelers", home: "Cleveland Browns", entry: "entry.1430673861" },
-  { matchup: "Indianapolis Colts @ Washington Commanders", kickoff: "Sun 10/4 9:30 AM ET (NFL Network)", away: "Indianapolis Colts", home: "Washington Commanders", entry: "entry.2108949720" },
-  { matchup: "Arizona Cardinals @ New York Giants", kickoff: "Sun 10/4 1:00 PM ET (CBS)", away: "Arizona Cardinals", home: "New York Giants", entry: "entry.441562585" },
-  { matchup: "Dallas Cowboys @ Houston Texans", kickoff: "Sun 10/4 1:00 PM ET (FOX)", away: "Dallas Cowboys", home: "Houston Texans", entry: "entry.217602783" },
-  { matchup: "Green Bay Packers @ Tampa Bay Buccaneers", kickoff: "Sun 10/4 1:00 PM ET (FOX)", away: "Green Bay Packers", home: "Tampa Bay Buccaneers", entry: "entry.1796722167" },
-  { matchup: "Jacksonville Jaguars @ Cincinnati Bengals", kickoff: "Sun 10/4 1:00 PM ET (CBS)", away: "Jacksonville Jaguars", home: "Cincinnati Bengals", entry: "entry.1169487905" },
-  { matchup: "Los Angeles Rams @ Philadelphia Eagles", kickoff: "Sun 10/4 1:00 PM ET (FOX)", away: "Los Angeles Rams", home: "Philadelphia Eagles", entry: "entry.145057882" },
-  { matchup: "New England Patriots @ Buffalo Bills", kickoff: "Sun 10/4 1:00 PM ET (CBS)", away: "New England Patriots", home: "Buffalo Bills", entry: "entry.1832158450" },
-  { matchup: "New York Jets @ Chicago Bears", kickoff: "Sun 10/4 1:00 PM ET (FOX)", away: "New York Jets", home: "Chicago Bears", entry: "entry.326102835" },
-  { matchup: "Tennessee Titans @ Baltimore Ravens", kickoff: "Sun 10/4 1:00 PM ET (CBS)", away: "Tennessee Titans", home: "Baltimore Ravens", entry: "entry.53406833" },
-  { matchup: "Miami Dolphins @ Minnesota Vikings", kickoff: "Sun 10/4 4:05 PM ET (FOX)", away: "Miami Dolphins", home: "Minnesota Vikings", entry: "entry.2030992036" },
-  { matchup: "Denver Broncos @ San Francisco 49ers", kickoff: "Sun 10/4 4:25 PM ET (CBS)", away: "Denver Broncos", home: "San Francisco 49ers", entry: "entry.1153349899" },
-  { matchup: "Kansas City Chiefs @ Las Vegas Raiders", kickoff: "Sun 10/4 4:25 PM ET (CBS)", away: "Kansas City Chiefs", home: "Las Vegas Raiders", entry: "entry.819301550" },
-  { matchup: "Los Angeles Chargers @ Seattle Seahawks", kickoff: "Sun 10/4 4:25 PM ET (CBS)", away: "Los Angeles Chargers", home: "Seattle Seahawks", entry: "entry.143664362" },
-  { matchup: "Detroit Lions @ Carolina Panthers", kickoff: "Sun 10/4 8:20 PM ET (NBC)", away: "Detroit Lions", home: "Carolina Panthers", entry: "entry.2136714502" },
-  { matchup: "Atlanta Falcons @ New Orleans Saints", kickoff: "Mon 10/5 8:15 PM ET (ESPN)", away: "Atlanta Falcons", home: "New Orleans Saints", entry: "entry.781702657", tiebreaker: true }
+  { matchup: "Tampa Bay Buccaneers @ Dallas Cowboys", kickoff: "Thu 10/8 8:15 PM ET (Prime Video)", away: "Tampa Bay Buccaneers", home: "Dallas Cowboys", entry: "entry.1408739607" },
+  { matchup: "Philadelphia Eagles @ Jacksonville Jaguars", kickoff: "Sun 10/11 9:30 AM ET (NFL London Games)", away: "Philadelphia Eagles", home: "Jacksonville Jaguars", entry: "entry.485247590" },
+  { matchup: "Chicago Bears @ Green Bay Packers", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Chicago Bears", home: "Green Bay Packers", entry: "entry.145884168" },
+  { matchup: "Houston Texans @ Tennessee Titans", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Houston Texans", home: "Tennessee Titans", entry: "entry.1757003615" },
+  { matchup: "Cincinnati Bengals @ Miami Dolphins", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Cincinnati Bengals", home: "Miami Dolphins", entry: "entry.1630917663" },
+  { matchup: "Las Vegas Raiders @ New England Patriots", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Las Vegas Raiders", home: "New England Patriots", entry: "entry.1900931311" },
+  { matchup: "Minnesota Vikings @ New Orleans Saints", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Minnesota Vikings", home: "New Orleans Saints", entry: "entry.571003131" },
+  { matchup: "Cleveland Browns @ New York Jets", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Cleveland Browns", home: "New York Jets", entry: "entry.1841101079" },
+  { matchup: "Indianapolis Colts @ Pittsburgh Steelers", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Indianapolis Colts", home: "Pittsburgh Steelers", entry: "entry.456037589" },
+  { matchup: "New York Giants @ Washington Commanders", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "New York Giants", home: "Washington Commanders", entry: "entry.90416923" },
+  { matchup: "Denver Broncos @ Los Angeles Chargers", kickoff: "Sun 10/11 4:05 PM ET (CBS)", away: "Denver Broncos", home: "Los Angeles Chargers", entry: "entry.2055731830" },
+  { matchup: "Detroit Lions @ Arizona Cardinals", kickoff: "Sun 10/11 4:25 PM ET (FOX)", away: "Detroit Lions", home: "Arizona Cardinals", entry: "entry.1133801111" },
+  { matchup: "San Francisco 49ers @ Seattle Seahawks", kickoff: "Sun 10/11 4:25 PM ET (FOX)", away: "San Francisco 49ers", home: "Seattle Seahawks", entry: "entry.1869011226" },
+  { matchup: "Baltimore Ravens @ Atlanta Falcons", kickoff: "Sun 10/11 8:20 PM ET (NBC)", away: "Baltimore Ravens", home: "Atlanta Falcons", entry: "entry.1394452284" },
+  { matchup: "Buffalo Bills @ Los Angeles Rams", kickoff: "Mon 10/12 8:15 PM ET (ESPN)", away: "Buffalo Bills", home: "Los Angeles Rams", entry: "entry.402510114", tiebreaker: true },
+  
 ];
 
 // ---------- Live "Week N Picks" — reads straight from the Form's response sheet ----------
 // Published-to-web CSV of the Form's linked response sheet. Update this every week once
 // the new Form/Sheet is created (Form editor -> Responses -> View in Sheets -> File ->
 // Share -> Publish to web -> select the "Form Responses" sheet -> format CSV -> Publish).
-const PICKS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTNnPcg5wqu57mEwQTeCjgWTZrNAxtmLZVp5wd5lTghdsIv2o2qER3CnQ1FvY1Gj0zLYkp5TjbhOAC4/pub?gid=1161257256&single=true&output=csv";
+const PICKS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTCn9XjlUJgGe5M_qBg1l5FWC8KH2Q8fPrfa3krm7TRbtkXHN2UgsHowL1HbhUaaR3_rCEXTmECgVK/pub?gid=1245101292&single=true&output=csv";
 
 function parseCSV(text) {
   const rows = [];
