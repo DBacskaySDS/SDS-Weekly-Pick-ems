@@ -264,22 +264,22 @@
 
 <script>
 // ---------- Static leaderboard snapshot — republish this page to refresh ----------
-const SNAPSHOT_TAKEN_AT = "2026-10-06T20:00:00Z";
+const SNAPSHOT_TAKEN_AT = "2026-10-07T01:25:00Z";
 const TRACKER_TEXT = `
 | Season Standings |
 | Season Rank | Name | Total Correct | Total Games Graded | Weeks Won | Avg Tiebreaker Diff |
-| 1 | Nixon | 35 | 48 | 2 | 13.33 |
-| 2 | Minkz | 33 | 48 | 1 | 13 |
-| 3 | Ahmed Khalifa | 29 | 48 | 0 | 11.33 |
-| 4 | Cristina Maldonado | 29 | 48 | 0 | 22 |
-| 5 | Devon Bacskay | 28 | 48 | 0 | 11 |
-| 6 | Steve Papoutsis | 27 | 48 | 0 | 11.67 |
-| 7 | Rhonda | 27 | 48 | 0 | 12.33 |
-| 8 | Thomas Catalano | 26 | 48 | 0 | 10.67 |
-| 9 | Vernon Lee Jr | 26 | 48 | 0 | 11 |
-| 10 | Andrea Lencioni | 25 | 48 | 1 | 10.33 |
-| 11 | Gavin Lee | 25 | 48 | 0 | 12.33 |
-| 12 | Aasim | 17 | 32 | 0 | 17.5 |
+| 1 | Minkz | 45 | 64 | 2 | 16.5 |
+| 2 | Nixon | 45 | 64 | 2 | 18 |
+| 3 | Ahmed Khalifa | 41 | 64 | 0 | 15.75 |
+| 4 | Devon Bacskay | 39 | 64 | 0 | 14.75 |
+| 5 | Cristina Maldonado | 39 | 64 | 0 | 26 |
+| 6 | Rhonda | 38 | 64 | 0 | 18 |
+| 7 | Steve Papoutsis | 37 | 64 | 0 | 13.25 |
+| 8 | Andrea Lencioni | 37 | 64 | 2 | 14.5 |
+| 9 | Thomas Catalano | 35 | 64 | 0 | 12.25 |
+| 10 | Vernon Lee Jr | 35 | 64 | 0 | 13.25 |
+| 11 | Gavin Lee | 34 | 64 | 0 | 15.25 |
+| 12 | Aasim | 25 | 48 | 0 | 23.33 |
 | 13 | Tommy Grissom | 16 | 32 | 0 | 7.5 |
 | 14 | Anthony Engel | 11 | 16 | 0 | 2 |
 | 15 | Daniel Ortuno | 5 | 16 | 0 | 3 |
@@ -497,24 +497,23 @@ function isPicksLocked() {
 }
 const FORM_ACTION_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScsjbrBKOOAau6FbLnrgeJwHSjzkPkv_dnSeaScLvGrkN5-Rw/formResponse";
 const NAME_ENTRY = "entry.787351811";
-const TIEBREAKER_ENTRY = "entry.326713942";
+const TIEBREAKER_ENTRY = "entry.1408739607";
 const GAMES = [
-  { matchup: "Tampa Bay Buccaneers @ Dallas Cowboys", kickoff: "Thu 10/8 8:15 PM ET (Prime Video)", away: "Tampa Bay Buccaneers", home: "Dallas Cowboys", entry: "entry.1408739607" },
-  { matchup: "Philadelphia Eagles @ Jacksonville Jaguars", kickoff: "Sun 10/11 9:30 AM ET (NFL London Games)", away: "Philadelphia Eagles", home: "Jacksonville Jaguars", entry: "entry.485247590" },
-  { matchup: "Chicago Bears @ Green Bay Packers", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Chicago Bears", home: "Green Bay Packers", entry: "entry.145884168" },
-  { matchup: "Houston Texans @ Tennessee Titans", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Houston Texans", home: "Tennessee Titans", entry: "entry.1757003615" },
-  { matchup: "Cincinnati Bengals @ Miami Dolphins", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Cincinnati Bengals", home: "Miami Dolphins", entry: "entry.1630917663" },
-  { matchup: "Las Vegas Raiders @ New England Patriots", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Las Vegas Raiders", home: "New England Patriots", entry: "entry.1900931311" },
-  { matchup: "Minnesota Vikings @ New Orleans Saints", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Minnesota Vikings", home: "New Orleans Saints", entry: "entry.571003131" },
-  { matchup: "Cleveland Browns @ New York Jets", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Cleveland Browns", home: "New York Jets", entry: "entry.1841101079" },
-  { matchup: "Indianapolis Colts @ Pittsburgh Steelers", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Indianapolis Colts", home: "Pittsburgh Steelers", entry: "entry.456037589" },
-  { matchup: "New York Giants @ Washington Commanders", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "New York Giants", home: "Washington Commanders", entry: "entry.90416923" },
-  { matchup: "Denver Broncos @ Los Angeles Chargers", kickoff: "Sun 10/11 4:05 PM ET (CBS)", away: "Denver Broncos", home: "Los Angeles Chargers", entry: "entry.2055731830" },
-  { matchup: "Detroit Lions @ Arizona Cardinals", kickoff: "Sun 10/11 4:25 PM ET (FOX)", away: "Detroit Lions", home: "Arizona Cardinals", entry: "entry.1133801111" },
-  { matchup: "San Francisco 49ers @ Seattle Seahawks", kickoff: "Sun 10/11 4:25 PM ET (FOX)", away: "San Francisco 49ers", home: "Seattle Seahawks", entry: "entry.1869011226" },
-  { matchup: "Baltimore Ravens @ Atlanta Falcons", kickoff: "Sun 10/11 8:20 PM ET (NBC)", away: "Baltimore Ravens", home: "Atlanta Falcons", entry: "entry.1394452284" },
-  { matchup: "Buffalo Bills @ Los Angeles Rams", kickoff: "Mon 10/12 8:15 PM ET (ESPN)", away: "Buffalo Bills", home: "Los Angeles Rams", entry: "entry.402510114", tiebreaker: true },
-  
+  { matchup: "Tampa Bay Buccaneers @ Dallas Cowboys", kickoff: "Thu 10/8 8:15 PM ET (Prime Video)", away: "Tampa Bay Buccaneers", home: "Dallas Cowboys", entry: "entry.485247590" },
+  { matchup: "Philadelphia Eagles @ Jacksonville Jaguars", kickoff: "Sun 10/11 9:30 AM ET (NFL London Games)", away: "Philadelphia Eagles", home: "Jacksonville Jaguars", entry: "entry.145884168" },
+  { matchup: "Chicago Bears @ Green Bay Packers", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Chicago Bears", home: "Green Bay Packers", entry: "entry.1757003615" },
+  { matchup: "Houston Texans @ Tennessee Titans", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Houston Texans", home: "Tennessee Titans", entry: "entry.1630917663" },
+  { matchup: "Cincinnati Bengals @ Miami Dolphins", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Cincinnati Bengals", home: "Miami Dolphins", entry: "entry.1900931311" },
+  { matchup: "Las Vegas Raiders @ New England Patriots", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Las Vegas Raiders", home: "New England Patriots", entry: "entry.571003131" },
+  { matchup: "Minnesota Vikings @ New Orleans Saints", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "Minnesota Vikings", home: "New Orleans Saints", entry: "entry.1841101079" },
+  { matchup: "Cleveland Browns @ New York Jets", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Cleveland Browns", home: "New York Jets", entry: "entry.456037589" },
+  { matchup: "Indianapolis Colts @ Pittsburgh Steelers", kickoff: "Sun 10/11 1:00 PM ET (CBS)", away: "Indianapolis Colts", home: "Pittsburgh Steelers", entry: "entry.90416923" },
+  { matchup: "New York Giants @ Washington Commanders", kickoff: "Sun 10/11 1:00 PM ET (FOX)", away: "New York Giants", home: "Washington Commanders", entry: "entry.2055731830" },
+  { matchup: "Denver Broncos @ Los Angeles Chargers", kickoff: "Sun 10/11 4:05 PM ET (CBS)", away: "Denver Broncos", home: "Los Angeles Chargers", entry: "entry.1133801111" },
+  { matchup: "Detroit Lions @ Arizona Cardinals", kickoff: "Sun 10/11 4:25 PM ET (FOX)", away: "Detroit Lions", home: "Arizona Cardinals", entry: "entry.1869011226" },
+  { matchup: "San Francisco 49ers @ Seattle Seahawks", kickoff: "Sun 10/11 4:25 PM ET (FOX)", away: "San Francisco 49ers", home: "Seattle Seahawks", entry: "entry.1394452284" },
+  { matchup: "Baltimore Ravens @ Atlanta Falcons", kickoff: "Sun 10/11 8:20 PM ET (NBC)", away: "Baltimore Ravens", home: "Atlanta Falcons", entry: "entry.402510114" },
+  { matchup: "Buffalo Bills @ Los Angeles Rams", kickoff: "Mon 10/12 8:15 PM ET (ESPN)", away: "Buffalo Bills", home: "Los Angeles Rams", entry: "entry.326713942", tiebreaker: true },
 ];
 
 // ---------- Live "Week N Picks" — reads straight from the Form's response sheet ----------
