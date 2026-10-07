@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>SDS Pick'em Leaderboard</title>
 <style>
   :root {
@@ -268,21 +262,21 @@ const SNAPSHOT_TAKEN_AT = "2026-10-07T01:25:00Z";
 const TRACKER_TEXT = `
 | Season Standings |
 | Season Rank | Name | Total Correct | Total Games Graded | Weeks Won | Avg Tiebreaker Diff |
-| 1 | Minkz | 45 | 64 | 2 | 16.5 |
-| 2 | Nixon | 45 | 64 | 2 | 18 |
-| 3 | Ahmed Khalifa | 41 | 64 | 0 | 15.75 |
-| 4 | Devon Bacskay | 39 | 64 | 0 | 14.75 |
-| 5 | Cristina Maldonado | 39 | 64 | 0 | 26 |
-| 6 | Rhonda | 38 | 64 | 0 | 18 |
-| 7 | Steve Papoutsis | 37 | 64 | 0 | 13.25 |
-| 8 | Andrea Lencioni | 37 | 64 | 2 | 14.5 |
-| 9 | Thomas Catalano | 35 | 64 | 0 | 12.25 |
-| 10 | Vernon Lee Jr | 35 | 64 | 0 | 13.25 |
-| 11 | Gavin Lee | 34 | 64 | 0 | 15.25 |
-| 12 | Aasim | 25 | 48 | 0 | 23.33 |
-| 13 | Tommy Grissom | 16 | 32 | 0 | 7.5 |
-| 14 | Anthony Engel | 11 | 16 | 0 | 2 |
-| 15 | Daniel Ortuno | 5 | 16 | 0 | 3 |
+| 1 | Minkz | 44 | 64 | 1 | 27.0 |
+| 2 | Nixon | 41 | 64 | 2 | 4.25 |
+| 3 | Cristina Maldonado | 40 | 64 | 0 | — |
+| 4 | Ahmed Khalifa | 39 | 64 | 0 | — |
+| 5 | Devon Bacskay | 37 | 64 | 0 | — |
+| 6 | Andrea Lencioni | 36 | 64 | 1 | 27.0 |
+| 7 | Thomas Catalano | 36 | 64 | 0 | — |
+| 8 | Vernon Lee Jr | 36 | 64 | 0 | — |
+| 9 | Gavin Lee | 35 | 64 | 0 | — |
+| 10 | Steve Papoutsis | 35 | 64 | 0 | — |
+| 11 | Rhonda | 34 | 64 | 0 | — |
+| 12 | Tommy Grissom | 29 | 48 | 1 | 6.0 |
+| 13 | Aasim | 27 | 48 | 0 | — |
+| 14 | Anthony Engel | 20 | 32 | 0 | — |
+| 15 | Daniel Ortuno | 15 | 32 | 0 | — |
 | |
 | Weekly Results |
 | Week | Name | Correct | Total Games | Tiebreaker Guess | Actual Total | Diff | Rank | Won |
@@ -298,7 +292,6 @@ const TRACKER_TEXT = `
 | 4 | Vernon Lee Jr | 9 | 16 | 49 | 69 | 20 | 10 | N |
 | 4 | Gavin Lee | 9 | 16 | 45 | 69 | 24 | 11 | N |
 | 4 | Aasim | 8 | 16 | 34 | 69 | 35 | 12 | N |
-
 `;
 
 function esc(s) {
@@ -513,7 +506,7 @@ const GAMES = [
   { matchup: "Detroit Lions @ Arizona Cardinals", kickoff: "Sun 10/11 4:25 PM ET (FOX)", away: "Detroit Lions", home: "Arizona Cardinals", entry: "entry.1869011226" },
   { matchup: "San Francisco 49ers @ Seattle Seahawks", kickoff: "Sun 10/11 4:25 PM ET (FOX)", away: "San Francisco 49ers", home: "Seattle Seahawks", entry: "entry.1394452284" },
   { matchup: "Baltimore Ravens @ Atlanta Falcons", kickoff: "Sun 10/11 8:20 PM ET (NBC)", away: "Baltimore Ravens", home: "Atlanta Falcons", entry: "entry.402510114" },
-  { matchup: "Buffalo Bills @ Los Angeles Rams", kickoff: "Mon 10/12 8:15 PM ET (ESPN)", away: "Buffalo Bills", home: "Los Angeles Rams", entry: "entry.326713942", tiebreaker: true },
+  { matchup: "Buffalo Bills @ Los Angeles Rams", kickoff: "Mon 10/12 8:15 PM ET (ESPN)", away: "Buffalo Bills", home: "Los Angeles Rams", entry: "entry.326713942", tiebreaker: true }
 ];
 
 // ---------- Live "Week N Picks" — reads straight from the Form's response sheet ----------
@@ -521,6 +514,7 @@ const GAMES = [
 // the new Form/Sheet is created (Form editor -> Responses -> View in Sheets -> File ->
 // Share -> Publish to web -> select the "Form Responses" sheet -> format CSV -> Publish).
 const PICKS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRTCn9XjlUJgGe5M_qBg1l5FWC8KH2Q8fPrfa3krm7TRbtkXHN2UgsHowL1HbhUaaR3_rCEXTmECgVK/pub?gid=1245101292&single=true&output=csv";
+
 
 function parseCSV(text) {
   const rows = [];
@@ -876,5 +870,5 @@ renderPicksTab();
 loadLivePicks();
 loadLiveGrades();
 </script>
-</body>
-</html>
+
+</body></html>
