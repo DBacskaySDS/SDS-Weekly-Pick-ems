@@ -427,7 +427,7 @@ function computeStandings(weeklyRows) {
     return { name, rawTotal, totalGamesGraded, weeksWon, avgTBDiff, adjustedTotal, droppedWeeks, missedWeeks, numCompleted };
   });
 
-  results.sort((a, b) => b.adjustedTotal - a.adjustedTotal || b.rawTotal - a.rawTotal || a.name.localeCompare(b.name));
+  results.sort((a, b) => b.rawTotal - a.rawTotal || b.adjustedTotal - a.adjustedTotal || a.name.localeCompare(b.name));
   results.forEach((r, i) => r.rank = i + 1);
   return results;
 }
@@ -436,26 +436,27 @@ function renderStandings(results) {
   if (!results || !results.length) return '<p class="muted">No season standings yet.</p>';
   const body = results.map(r => {
     const rankClass = r.rank === 1 ? 'rank-1' : r.rank === 2 ? 'rank-2' : r.rank === 3 ? 'rank-3' : '';
-    const droppedLabel = r.numCompleted < 3 ? '—' : (r.droppedWeeks.length ? r.droppedWeeks.map(w => 'Wk ' + w).join(', ') : '—');
+    const droppedLabel = r.numCompleted < 3 ? 'needs 3+ weeks' : (r.droppedWeeks.length ? r.droppedWeeks.map(w => 'Wk ' + w).join(', ') : '—');
+    const ifDroppedLabel = r.numCompleted < 3 ? '—' : esc(r.adjustedTotal);
     const avgLabel = r.avgTBDiff === null ? '—' : (Math.round(r.avgTBDiff * 100) / 100);
     return `<tr>
-      <td class="rank-cell ${rankClass}">${medal(String(r.rank))}${r.rank}</td>
-      <td class="name-cell">${esc(r.name)}${r.weeksWon > 0 ? `<span class="pill">${r.weeksWon} week${r.weeksWon > 1 ? 's' : ''} won</span>` : ''}</td>
-      <td class="num">${esc(r.adjustedTotal)}<div class="muted" style="font-size:11px;font-weight:400;">${esc(r.rawTotal)}/${esc(r.totalGamesGraded)} raw</div></td>
-      <td class="num">${esc(droppedLabel)}</td>
-      <td class="num">${r.missedWeeks}</td>
-      <td class="num">${avgLabel}</td>
+    <td class="rank-cell ${rankClass}">${medal(String(r.rank))}${r.rank}</td>
+    <td class="name-cell">${esc(r.name)}${r.weeksWon > 0 ? ` <span class="pill">${r.weeksWon} week${r.weeksWon > 1 ? 's' : ''} won</span>` : ''}</td>
+    <td class="num">${esc(r.rawTotal)}/${esc(r.totalGamesGraded)}</td>
+    <td class="num">${ifDroppedLabel}<div class="muted" style="font-size:11px;font-weight:400;">${esc(droppedLabel)}</div></td>
+    <td class="num">${r.missedWeeks}</td>
+    <td class="num">${avgLabel}</td>
     </tr>`;
   }).join('');
   return `
-    <p class="muted" style="margin:-6px 0 14px 0;">Your two lowest-scoring weeks are dropped, including missed weeks. Your remaining correct picks determine your season total.</p>
-    <div class="scroll-hint">← swipe to see all columns →</div>
-    <div class="grid-scroll">
-    <table>
-      <thead><tr><th>Rank</th><th>Name</th><th class="num">Season Total</th><th class="num">Dropped</th><th class="num">Missed</th><th class="num">Avg TB Diff</th></tr></thead>
-      <tbody>${body}</tbody>
-    </table>
-    </div>`;
+  <p class="muted" style="margin:-6px 0 14px 0;">Standings are ranked by total correct picks. The "If Lowest Dropped" column shows what your total would be with your two lowest-scoring weeks removed, including any missed weeks.</p>
+  <div class="scroll-hint">← swipe to see all columns →</div>
+  <div class="grid-scroll">
+  <table>
+  <thead><tr><th>Rank</th><th>Name</th><th class="num">Correct</th><th class="num">If Lowest Dropped</th><th class="num">Missed</th><th class="num">Avg TB Diff</th></tr></thead>
+  <tbody>${body}</tbody>
+  </table>
+  </div>`;
 }
 
 function renderWeekly(rows) {
