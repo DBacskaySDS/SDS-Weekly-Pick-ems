@@ -572,9 +572,12 @@ function renderLeaderboard() {
 // each week — so FORM_ACTION_URL, NAME_ENTRY, TIEBREAKER_ENTRY, each game's entry
 // ID, and PICKS_CSV_URL below all need to be swapped out weekly, not just edited.
 const CURRENT_WEEK = 6;
-// Picks close once the first game of the week kicks off — update this every week to
-// match Game 1's kickoff time (in UTC). Thu 10/15/2026 8:15 PM ET (EDT, UTC-4) = below.
-const PICKS_LOCK_AT = "2026-10-16T00:15:00Z";
+// Picks lock Sunday morning, right before the first Sunday game kicks off — update this every week
+  // to match the earliest Sunday kickoff (in UTC). Sun 10/18/2026 9:30 AM ET (EDT, UTC-4) = below.
+  const PICKS_LOCK_AT = "2026-10-18T13:30:00Z";
+  // First (Thursday) game kickoff — a pick submitted after this time still gets in (form stays open till Sunday),
+  // but that one game's pick is scored as incorrect no matter what was picked, since the result is already known.
+  const FIRST_GAME_KICKOFF_AT = "2026-10-16T00:15:00Z";
 function isPicksLocked() {
   return Date.now() >= new Date(PICKS_LOCK_AT).getTime();
 }
@@ -821,7 +824,7 @@ function renderPicksTab() {
     el.innerHTML = `
       <div class="card">
         <div class="week-header"><h2 style="margin:0;">Week ${CURRENT_WEEK} Picks</h2></div>
-        <p class="muted lock-msg">Picks for Week ${CURRENT_WEEK} are locked — the first game has already kicked off. Check back next week!</p>
+        <p class="muted lock-msg">Picks for Week ${CURRENT_WEEK} are locked — the Sunday games have started. Check back next week!</p>
       </div>`;
     return;
   }
@@ -843,6 +846,7 @@ function renderPicksTab() {
   el.innerHTML = `
     <div class="card">
       <div class="week-header"><h2 style="margin:0;">Week ${CURRENT_WEEK} Picks</h2></div>
+      <p class="muted lock-msg">Picks lock ${new Date(PICKS_LOCK_AT).toLocaleString('en-US', { weekday: 'long', month: 'numeric', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short' })}, right before the first Sunday game. Heads up: if you submit after ${esc(GAMES[0].matchup)} (${esc(GAMES[0].kickoff)}) has already kicked off, that pick will be scored as incorrect no matter what you choose — you'll already know the result by then, so it can't count in your favor.</p>
       <div class="field-block">
         <label class="field-label">Your Name</label>
         <input type="text" id="yourName" placeholder="Enter your name">
@@ -871,12 +875,11 @@ function submitPicks() {
 
   if (isPicksLocked()) {
     msg.className = 'submit-msg err';
-    msg.textContent = `Picks for Week ${CURRENT_WEEK} just locked — the first game has kicked off.`;
+    msg.textContent = `Picks for Week ${CURRENT_WEEK} just locked — the Sunday games have started.`;
     btn.disabled = true;
     btn.textContent = 'Locked';
     return;
-  }
-
+  
   const name = document.getElementById('yourName').value.trim();
 
   if (!name) { msg.className = 'submit-msg err'; msg.textContent = 'Please enter your name.'; return; }
