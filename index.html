@@ -257,29 +257,49 @@
 </div>
 
 <script>
-// ---------- Static leaderboard snapshot — republish this page to refresh ----------
-const SNAPSHOT_TAKEN_AT = "2026-10-13T08:27:00Z";
+// ---------- Live leaderboard — computed from the full weekly results below ----------
 const TRACKER_TEXT = `
-| Season Standings |
-| Season Rank | Name | Total Correct | Total Games Graded | Weeks Won | Avg Tiebreaker Diff |
-| 1 | Minkz | 52 | 79 | 1 | 17 |
-| 2 | Ahmed Khalifa | 49 | 79 | 0 | 15.25 |
-| 3 | Nixon | 48 | 79 | 2 | 15.25 |
-| 4 | Andrea Lencioni | 47 | 79 | 2 | 18.5 |
-| 5 | Devon Bacskay | 45 | 79 | 0 | 14.5 |
-| 6 | Thomas Catalano | 44 | 79 | 0 | 12.5 |
-| 7 | Gavin Lee | 44 | 79 | 0 | 14 |
-| 8 | Steve Papoutsis | 42 | 79 | 0 | 13.75 |
-| 9 | Rhonda | 42 | 79 | 0 | 18.5 |
-| 10 | Cristina Maldonado | 40 | 64 | 0 | 22 |
-| 11 | Vernon Lee Jr | 36 | 64 | 0 | 11 |
-| 12 | Tommy Grissom | 29 | 48 | 1 | 7.5 |
-| 13 | Aasim | 27 | 48 | 0 | 17.5 |
-| 14 | Daniel Ortuno | 22 | 47 | 0 | 8 |
-| 15 | Anthony Engel | 20 | 32 | 0 | 2 |
-| |
 | Weekly Results |
 | Week | Name | Correct | Total Games | Tiebreaker Guess | Actual Total | Diff | Rank | Won |
+| 1 | Nixon | 13 | 16 | 38 | 41 | 3 | 1 | Y |
+| 1 | Anthony Engel | 11 | 16 | 43 | 41 | 2 | 2 | N |
+| 1 | Minkz | 11 | 16 | 45 | 41 | 4 | 3 | N |
+| 1 | Vernon Lee Jr | 10 | 16 | 45 | 41 | 4 | 4 | N |
+| 1 | Gavin Lee | 10 | 16 | 47 | 41 | 6 | 5 | N |
+| 1 | Cristina Maldonado | 10 | 16 | 21 | 41 | 20 | 6 | N |
+| 1 | Rhonda | 9 | 16 | 43 | 41 | 2 | 7 | N |
+| 1 | Devon Bacskay | 9 | 16 | 45 | 41 | 4 | 8 | N |
+| 1 | Thomas Catalano | 9 | 16 | 50 | 41 | 9 | 9 | N |
+| 1 | Steve Papoutsis | 9 | 16 | 51 | 41 | 10 | 10 | N |
+| 1 | Tommy Grissom | 9 | 16 | 52 | 41 | 11 | 11 | N |
+| 1 | Ahmed Khalifa | 8 | 16 | 42 | 41 | 1 | 12 | N |
+| 1 | Andrea Lencioni | 7 | 16 | 42 | 41 | 1 | 13 | N |
+| 1 | Daniel Ortuno | 5 | 16 | 44 | 41 | 3 | 14 | N |
+| 3 | Nixon | 12 | 16 | 39 | 34 | 5 | 1 | Y |
+| 3 | Minkz | 10 | 16 | 42 | 34 | 8 | 2 | N |
+| 3 | Aasim | 9 | 16 | 34 | 34 | 0 | 3 | N |
+| 3 | Ahmed Khalifa | 9 | 16 | 30 | 34 | 4 | 4 | N |
+| 3 | Cristina Maldonado | 9 | 16 | 26 | 34 | 8 | 5 | N |
+| 3 | Devon Bacskay | 8 | 16 | 37 | 34 | 3 | 6 | N |
+| 3 | Thomas Catalano | 8 | 16 | 40 | 34 | 6 | 7 | N |
+| 3 | Steve Papoutsis | 8 | 16 | 27 | 34 | 7 | 8 | N |
+| 3 | Rhonda | 7 | 16 | 34 | 34 | 0 | 9 | N |
+| 3 | Tommy Grissom | 7 | 16 | 38 | 34 | 4 | 10 | N |
+| 3 | Vernon Lee Jr | 7 | 16 | 43 | 34 | 9 | 11 | N |
+| 3 | Andrea Lencioni | 6 | 16 | 31 | 34 | 3 | 12 | N |
+| 3 | Gavin Lee | 6 | 16 | 41 | 34 | 7 | 13 | N |
+| 4 | Minkz | 12 | 16 | 42 | 69 | 27 | 1 | Y |
+| 4 | Andrea Lencioni | 12 | 16 | 42 | 69 | 27 | 1 | Y |
+| 4 | Ahmed Khalifa | 12 | 16 | 40 | 69 | 29 | 3 | N |
+| 4 | Devon Bacskay | 11 | 16 | 43 | 69 | 26 | 4 | N |
+| 4 | Rhonda | 11 | 16 | 34 | 69 | 35 | 5 | N |
+| 4 | Steve Papoutsis | 10 | 16 | 51 | 69 | 18 | 6 | N |
+| 4 | Nixon | 10 | 16 | 37 | 69 | 32 | 7 | N |
+| 4 | Cristina Maldonado | 10 | 16 | 31 | 69 | 38 | 8 | N |
+| 4 | Thomas Catalano | 9 | 16 | 52 | 69 | 17 | 9 | N |
+| 4 | Vernon Lee Jr | 9 | 16 | 49 | 69 | 20 | 10 | N |
+| 4 | Gavin Lee | 9 | 16 | 45 | 69 | 24 | 11 | N |
+| 4 | Aasim | 8 | 16 | 34 | 69 | 35 | 12 | N |
 | 5 | Andrea Lencioni | 11 | 15 | 28 | 71 | 43 | 1 | Y |
 | 5 | Ahmed Khalifa | 10 | 15 | 44 | 71 | 27 | 2 | N |
 | 5 | Gavin Lee | 9 | 15 | 52 | 71 | 19 | 3 | N |
@@ -290,15 +310,6 @@ const TRACKER_TEXT = `
 | 5 | Daniel Ortuno | 7 | 15 | 58 | 71 | 13 | 8 | N |
 | 5 | Steve Papoutsis | 7 | 15 | 51 | 71 | 20 | 9 | N |
 | 5 | Nixon | 7 | 15 | 50 | 71 | 21 | 10 | N |
-
-
-
-
-
-
-
-
-
 `;
 
 function esc(s) {
@@ -357,23 +368,79 @@ function medal(rank) {
   return '';
 }
 
-function renderStandings(rows) {
-  if (!rows || !rows.length) return '<p class="muted">No season standings yet.</p>';
-  const sorted = [...rows].sort((a, b) => Number(a['Season Rank']) - Number(b['Season Rank']));
-  const body = sorted.map(r => {
-    const rankClass = r['Season Rank'] === '1' ? 'rank-1' : r['Season Rank'] === '2' ? 'rank-2' : r['Season Rank'] === '3' ? 'rank-3' : '';
-    const weeksWon = Number(r['Weeks Won'] || 0);
+function computeStandings(weeklyRows) {
+  if (!weeklyRows || !weeklyRows.length) return [];
+  const byPlayer = new Map();
+  const allWeeks = new Set();
+  weeklyRows.forEach(r => {
+    const week = Number(r['Week']);
+    const name = (r['Name'] || '').trim();
+    if (!name || !week) return;
+    allWeeks.add(week);
+    if (!byPlayer.has(name)) byPlayer.set(name, new Map());
+    byPlayer.get(name).set(week, {
+      correct: Number(r['Correct'] || 0),
+      totalGames: Number(r['Total Games'] || 0),
+      diff: (r['Diff'] !== undefined && r['Diff'] !== '') ? Number(r['Diff']) : null,
+      won: (r['Won'] || '').toUpperCase() === 'Y'
+    });
+  });
+  const completedWeeks = Array.from(allWeeks).sort((a, b) => a - b);
+  const numCompleted = completedWeeks.length;
+
+  const results = Array.from(byPlayer.entries()).map(([name, weeksMap]) => {
+    const weekScores = completedWeeks.map(w => {
+      const entry = weeksMap.get(w);
+      return { week: w, correct: entry ? entry.correct : 0, played: !!entry };
+    });
+    const missedWeeks = weekScores.filter(w => !w.played).length;
+    const rawTotal = weekScores.reduce((sum, w) => sum + w.correct, 0);
+    const totalGamesGraded = Array.from(weeksMap.values()).reduce((sum, e) => sum + e.totalGames, 0);
+    const weeksWon = Array.from(weeksMap.values()).filter(e => e.won).length;
+    const diffs = Array.from(weeksMap.values()).map(e => e.diff).filter(d => d !== null && !isNaN(d));
+    const avgTBDiff = diffs.length ? (diffs.reduce((a, b) => a + b, 0) / diffs.length) : null;
+
+    let adjustedTotal = 0;
+    let droppedWeeks = [];
+    if (numCompleted >= 3) {
+      const sorted = [...weekScores].sort((a, b) => a.correct - b.correct || a.week - b.week);
+      droppedWeeks = sorted.slice(0, 2).map(w => w.week).sort((a, b) => a - b);
+      const droppedSet = new Set(droppedWeeks);
+      adjustedTotal = weekScores.filter(w => !droppedSet.has(w.week)).reduce((sum, w) => sum + w.correct, 0);
+    }
+
+    return { name, rawTotal, totalGamesGraded, weeksWon, avgTBDiff, adjustedTotal, droppedWeeks, missedWeeks, numCompleted };
+  });
+
+  results.sort((a, b) => b.adjustedTotal - a.adjustedTotal || b.rawTotal - a.rawTotal || a.name.localeCompare(b.name));
+  results.forEach((r, i) => r.rank = i + 1);
+  return results;
+}
+
+function renderStandings(results) {
+  if (!results || !results.length) return '<p class="muted">No season standings yet.</p>';
+  const body = results.map(r => {
+    const rankClass = r.rank === 1 ? 'rank-1' : r.rank === 2 ? 'rank-2' : r.rank === 3 ? 'rank-3' : '';
+    const droppedLabel = r.numCompleted < 3 ? '—' : (r.droppedWeeks.length ? r.droppedWeeks.map(w => 'Wk ' + w).join(', ') : '—');
+    const avgLabel = r.avgTBDiff === null ? '—' : (Math.round(r.avgTBDiff * 100) / 100);
     return `<tr>
-      <td class="rank-cell ${rankClass}">${medal(r['Season Rank'])}${esc(r['Season Rank'])}</td>
-      <td class="name-cell">${esc(r['Name'])}${weeksWon > 0 ? `<span class="pill">${weeksWon} week${weeksWon > 1 ? 's' : ''} won</span>` : ''}</td>
-      <td class="num">${esc(r['Total Correct'])}/${esc(r['Total Games Graded'])}</td>
-      <td class="num">${esc(r['Avg Tiebreaker Diff'])}</td>
+      <td class="rank-cell ${rankClass}">${medal(String(r.rank))}${r.rank}</td>
+      <td class="name-cell">${esc(r.name)}${r.weeksWon > 0 ? `<span class="pill">${r.weeksWon} week${r.weeksWon > 1 ? 's' : ''} won</span>` : ''}</td>
+      <td class="num">${esc(r.adjustedTotal)}<div class="muted" style="font-size:11px;font-weight:400;">${esc(r.rawTotal)}/${esc(r.totalGamesGraded)} raw</div></td>
+      <td class="num">${esc(droppedLabel)}</td>
+      <td class="num">${r.missedWeeks}</td>
+      <td class="num">${avgLabel}</td>
     </tr>`;
   }).join('');
-  return `<table>
-    <thead><tr><th>Rank</th><th>Name</th><th class="num">Correct</th><th class="num">Avg TB Diff</th></tr></thead>
-    <tbody>${body}</tbody>
-  </table>`;
+  return `
+    <p class="muted" style="margin:-6px 0 14px 0;">Your two lowest-scoring weeks are dropped, including missed weeks. Your remaining correct picks determine your season total.</p>
+    <div class="scroll-hint">← swipe to see all columns →</div>
+    <div class="grid-scroll">
+    <table>
+      <thead><tr><th>Rank</th><th>Name</th><th class="num">Season Total</th><th class="num">Dropped</th><th class="num">Missed</th><th class="num">Avg TB Diff</th></tr></thead>
+      <tbody>${body}</tbody>
+    </table>
+    </div>`;
 }
 
 function renderWeekly(rows) {
@@ -458,7 +525,7 @@ function renderLeaderboard() {
   try {
     const SECTIONS = parseSections(TRACKER_TEXT);
     const weekly = renderWeekly(SECTIONS['Weekly Results']);
-    const standings = renderStandings(SECTIONS['Season Standings']);
+    const standings = renderStandings(computeStandings(SECTIONS['Weekly Results']));
     const picksInfo = findLatestPicksSection(SECTIONS);
 
     el.innerHTML = `
@@ -477,7 +544,7 @@ function renderLeaderboard() {
       ${renderPicksGrid(picksInfo)}
     `;
     document.getElementById('footer-note').textContent =
-      'Season standings snapshot from ' + new Date(SNAPSHOT_TAKEN_AT).toLocaleString() + ' (through Week 5) — ask Devon to refresh for updated standings. (Live picks and live standings above update automatically.)';
+      'Season standings are computed live from the full weekly results below — add a new week and totals, drops, and missed weeks update automatically. (Live picks and live standings above update automatically too.)';
   } catch (err) {
     el.innerHTML = `<div class="error">Couldn't render the leaderboard snapshot.\n\n${esc(err.message || err)}</div>`;
   }
