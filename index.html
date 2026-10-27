@@ -592,41 +592,41 @@ function renderLeaderboard() {
 // need to change. NOTE: unlike the F&F pool, SDS creates a brand-new Form + Sheet
 // each week — so FORM_ACTION_URL, NAME_ENTRY, TIEBREAKER_ENTRY, each game's entry
 // ID, and PICKS_CSV_URL below all need to be swapped out weekly, not just edited.
-const CURRENT_WEEK = 7;
+const CURRENT_WEEK = 8;
 // Picks lock Sunday morning, right before the first Sunday game kicks off — update this every week
-      // to match the earliest Sunday kickoff (in UTC). Sun 10/25/2026 9:30 AM ET (EDT, UTC-4) = below.
-  const PICKS_LOCK_AT = "2026-10-25T13:30:00Z";
+          // to match the earliest Sunday kickoff (in UTC). Sun 11/1/2026 1:00 PM ET (EST, UTC-5) = below.
+      const PICKS_LOCK_AT = "2026-11-01T18:00:00Z";
   // First (Thursday) game kickoff — a pick submitted after this time still gets in (form stays open till Sunday),
   // but that one game's pick is scored as incorrect no matter what was picked, since the result is already known.
-    const FIRST_GAME_KICKOFF_AT = "2026-10-23T00:15:00Z";
+        const FIRST_GAME_KICKOFF_AT = "2026-10-30T00:15:00Z";
 function isPicksLocked() {
   return Date.now() >= new Date(PICKS_LOCK_AT).getTime();
 }
-const FORM_ACTION_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLSeuQxnkaQ8E7bYozWUhae320pZVVTWHdrgb3EfxsodhFzA1ug/formResponse";
+const FORM_ACTION_URL = "https://docs.google.com/forms/u/0/d/e/1FAIpQLScNwrvAS5OpZi4U5levWuyVxFG9anknaUyNk4KixHoikShPMw/formResponse";
 const NAME_ENTRY = "entry.74374869";
 const TIEBREAKER_ENTRY = "entry.898314498";
 const GAMES = [
-  { matchup: "New England Patriots @ Chicago Bears", kickoff: "Thu 10/22 8:15 PM ET (Prime Video)", away: "New England Patriots", home: "Chicago Bears", entry: "entry.749239748" },
-  { matchup: "Pittsburgh Steelers @ New Orleans Saints", kickoff: "Sun 10/25 9:30 AM ET (NFL Network, Paris)", away: "Pittsburgh Steelers", home: "New Orleans Saints", entry: "entry.1383550511" },
-  { matchup: "San Francisco 49ers @ Atlanta Falcons", kickoff: "Sun 10/25 1:00 PM ET (FOX)", away: "San Francisco 49ers", home: "Atlanta Falcons", entry: "entry.21333058" },
-  { matchup: "Cincinnati Bengals @ Baltimore Ravens", kickoff: "Sun 10/25 1:00 PM ET (CBS)", away: "Cincinnati Bengals", home: "Baltimore Ravens", entry: "entry.311441248" },
-  { matchup: "Tampa Bay Buccaneers @ Carolina Panthers", kickoff: "Sun 10/25 1:00 PM ET (FOX)", away: "Tampa Bay Buccaneers", home: "Carolina Panthers", entry: "entry.1925700079" },
-  { matchup: "New York Giants @ Houston Texans", kickoff: "Sun 10/25 1:00 PM ET (FOX)", away: "New York Giants", home: "Houston Texans", entry: "entry.240451525" },
-  { matchup: "Indianapolis Colts @ Minnesota Vikings", kickoff: "Sun 10/25 1:00 PM ET (CBS)", away: "Indianapolis Colts", home: "Minnesota Vikings", entry: "entry.486914627" },
-  { matchup: "Miami Dolphins @ New York Jets", kickoff: "Sun 10/25 1:00 PM ET (CBS)", away: "Miami Dolphins", home: "New York Jets", entry: "entry.736637888" },
-  { matchup: "Cleveland Browns @ Tennessee Titans", kickoff: "Sun 10/25 1:00 PM ET (CBS)", away: "Cleveland Browns", home: "Tennessee Titans", entry: "entry.1230508781" },
-  { matchup: "Denver Broncos @ Arizona Cardinals", kickoff: "Sun 10/25 4:05 PM ET (CBS)", away: "Denver Broncos", home: "Arizona Cardinals", entry: "entry.1509233171" },
-  { matchup: "Los Angeles Rams @ Las Vegas Raiders", kickoff: "Sun 10/25 4:25 PM ET (FOX)", away: "Los Angeles Rams", home: "Las Vegas Raiders", entry: "entry.1044407122" },
-  { matchup: "Green Bay Packers @ Detroit Lions", kickoff: "Sun 10/25 4:25 PM ET (FOX)", away: "Green Bay Packers", home: "Detroit Lions", entry: "entry.468510977" },
-  { matchup: "Kansas City Chiefs @ Seattle Seahawks", kickoff: "Sun 10/25 8:20 PM ET (NBC)", away: "Kansas City Chiefs", home: "Seattle Seahawks", entry: "entry.1940283432" },
-  { matchup: "Dallas Cowboys @ Philadelphia Eagles", kickoff: "Mon 10/26 8:15 PM ET (ESPN/ABC)", away: "Dallas Cowboys", home: "Philadelphia Eagles", entry: "entry.290958617", tiebreaker: true }
+  { matchup: "Carolina Panthers @ Green Bay Packers", kickoff: "Thu 10/29 8:15 PM ET (Prime Video)", away: "Carolina Panthers", home: "Green Bay Packers", entry: "entry.749239748" },
+  { matchup: "Baltimore Ravens @ Buffalo Bills", kickoff: "Sun 11/1 1:00 PM ET (CBS)", away: "Baltimore Ravens", home: "Buffalo Bills", entry: "entry.1383550511" },
+  { matchup: "Tennessee Titans @ Cincinnati Bengals", kickoff: "Sun 11/1 1:00 PM ET (CBS)", away: "Tennessee Titans", home: "Cincinnati Bengals", entry: "entry.21333058" },
+  { matchup: "Arizona Cardinals @ Dallas Cowboys", kickoff: "Sun 11/1 1:00 PM ET (FOX)", away: "Arizona Cardinals", home: "Dallas Cowboys", entry: "entry.311441248" },
+  { matchup: "Minnesota Vikings @ Detroit Lions", kickoff: "Sun 11/1 1:00 PM ET (FOX)", away: "Minnesota Vikings", home: "Detroit Lions", entry: "entry.1925700079" },
+  { matchup: "Las Vegas Raiders @ New York Jets", kickoff: "Sun 11/1 1:00 PM ET (FOX)", away: "Las Vegas Raiders", home: "New York Jets", entry: "entry.240451525" },
+  { matchup: "Cleveland Browns @ Pittsburgh Steelers", kickoff: "Sun 11/1 1:00 PM ET (CBS)", away: "Cleveland Browns", home: "Pittsburgh Steelers", entry: "entry.486914627" },
+  { matchup: "Atlanta Falcons @ Tampa Bay Buccaneers", kickoff: "Sun 11/1 1:00 PM ET (FOX)", away: "Atlanta Falcons", home: "Tampa Bay Buccaneers", entry: "entry.736637888" },
+  { matchup: "Indianapolis Colts @ Jacksonville Jaguars", kickoff: "Sun 11/1 1:00 PM ET (CBS)", away: "Indianapolis Colts", home: "Jacksonville Jaguars", entry: "entry.1230508781" },
+  { matchup: "Los Angeles Chargers @ Los Angeles Rams", kickoff: "Sun 11/1 4:05 PM ET (FOX)", away: "Los Angeles Chargers", home: "Los Angeles Rams", entry: "entry.1509233171" },
+  { matchup: "Kansas City Chiefs @ Denver Broncos", kickoff: "Sun 11/1 4:25 PM ET (CBS)", away: "Kansas City Chiefs", home: "Denver Broncos", entry: "entry.1044407122" },
+  { matchup: "New England Patriots @ Miami Dolphins", kickoff: "Sun 11/1 4:25 PM ET (CBS)", away: "New England Patriots", home: "Miami Dolphins", entry: "entry.468510977" },
+  { matchup: "Philadelphia Eagles @ Washington Commanders", kickoff: "Sun 11/1 8:20 PM ET (NBC)", away: "Philadelphia Eagles", home: "Washington Commanders", entry: "entry.1940283432" },
+  { matchup: "Chicago Bears @ Seattle Seahawks", kickoff: "Mon 11/2 8:15 PM ET (ESPN)", away: "Chicago Bears", home: "Seattle Seahawks", entry: "entry.290958617", tiebreaker: true }
 ];
 
 // ---------- Live "Week N Picks" — reads straight from the Form's response sheet ----------
 // Published-to-web CSV of the Form's linked response sheet. Update this every week once
 // the new Form/Sheet is created (Form editor -> Responses -> View in Sheets -> File ->
 // Share -> Publish to web -> select the "Form Responses" sheet -> format CSV -> Publish).
-const PICKS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQltFij31pJETy93pfojLiv_11MHJMAlClHANN-Q5TtNf8gUF1uxXmnsWdh7s4SOwPJazzl8ERzBSMW/pub?gid=1782743550&single=true&output=csv";
+const PICKS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQa8vrIyvateteOkFJXDa5s48IdneeGw0rZWAZw4pmpow8PMRSMul6Z6yFBDiVKsIq5UfakF17XtR4o/pub?gid=266910879&single=true&output=csv";
 
 
 function parseCSV(text) {
