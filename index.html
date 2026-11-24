@@ -768,7 +768,7 @@ function renderLiveStandingsShell() {
     </div>`;
 }
 
-async function loadLiveGrades() {
+function sheetTsToMs(s) { const m = String(s || '').match(/(\d+)\/(\d+)\/(\d+) (\d+):(\d+):(\d+)/); if (!m) return null; const [, mo, d, y, h, mi, se] = m.map(Number); const g = Date.UTC(y, mo - 1, d, h, mi, se); const p = {}; new Intl.DateTimeFormat('en-US', { timeZone: 'America/Los_Angeles', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }).formatToParts(new Date(g)).forEach(x => p[x.type] = x.value); return g - (Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - g); } async function loadLiveGrades() {
   renderLiveStandingsShell();
   const contentEl = document.getElementById('live-standings-content');
   const tagEl = document.getElementById('live-standings-tag');
@@ -816,7 +816,7 @@ async function loadLiveGrades() {
       let correct = 0;
       GAMES.forEach((g, i) => {
         const res = results[i];
-        if (res.decided && res.winner !== 'TIE' && r[2 + i] === res.winner) correct++;
+        if (res.decided && res.winner !== 'TIE' && r[2 + i] === res.winner && !(i === 0 && sheetTsToMs(r[0]) > new Date(FIRST_GAME_KICKOFF_AT).getTime())) correct++;
       });
       const tbGuess = Number(r[2 + GAMES.length]);
       const diff = (tiebreakerResult && tiebreakerResult.decided && tiebreakerResult.actualTotal != null && !isNaN(tbGuess))
